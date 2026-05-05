@@ -38,7 +38,7 @@ export default function Home() {
           <h1>Home</h1>
           <p>Conteúdo da página Home</p>                  
           <div style={styles.users}> 
-                        {isLoading ? <p>Carregando...</p> : 
+                        {isLoading ? <p>Carregando....</p> : 
               users.map(user => 
                 <CardUser 
                   key={user.id}
