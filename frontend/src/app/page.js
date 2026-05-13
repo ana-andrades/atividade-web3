@@ -1,33 +1,21 @@
-'use client';
-import CardUser from "@/components/CardUser";
+import CardUser from "@/components/CardUserFlat";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
-import { useEffect, useState } from "react";
-import { useUserStore } from "@/stores/userStore";
 
-export default function Home() {
+  export default async function Home() {
 
-  const [isLoading, setIsLoading] = useState(true);
-  //const [users, setUsers] = useState([]);
-  const { users, updateUsers } = useUserStore();
+   let users = [];
 
-  useEffect(() => {
-
-        const getUsers = async () => {
-      const response = await fetch('http://localhost:3333/user')
-      if(response.ok){
-        const data = await response.json();
-        console.log(data);
-        updateUsers(data.users);
-      } else{
-        const data = await response?.json();
-        console.error('Erro ao buscar usuários', data);
-      }
-    }
-    getUsers()
-    setIsLoading(false)
-  }, [updateUsers])
+  const response = await fetch('http://localhost:3333/user')
+  if(response.ok){
+    const data = await response.json();
+    console.log(data);
+    users = data.users;
+  } else{
+    const data = await response?.json();
+    console.error('Erro ao buscar usuários', data);
+  }
 
   return (
     <div style={styles.home}>
@@ -38,8 +26,7 @@ export default function Home() {
           <h1>Home</h1>
           <p>Conteúdo da página Home</p>                  
           <div style={styles.users}> 
-                        {isLoading ? <p>Carregando....</p> : 
-              users.map(user => 
+              { users.map(user =>     
                 <CardUser 
                   key={user.id}
                   id={user.id}
